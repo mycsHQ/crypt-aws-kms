@@ -15,31 +15,26 @@ const kms = new AWS.KMS({
 // const encryptedSecret = fs.readFileSync(secretPath);
 
 
-const decrypt = (encryptedData) => {
+const decrypt = (encryptedData) =>
   // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property
-  kms.decrypt(encryptedData, (err, data) => {
-    if (err) {
-      console.error(err, err.stack);
-    } else {
-      const decryptedSecret = data.Plaintext.toString();
-      console.log({
-        decryptedSecret
-      });
-    }
-  });
-};
+  kms.decrypt(encryptedData).promise();
 
 const encryptParams = {
   KeyId: '6bda8121-95b4-402a-83c3-26ae49e8a9d8',
   Plaintext: 'This is so encrypted'
 };
 
+const encrypt = (encryptParams) =>
+  kms.encrypt(encryptParams).promise();
+
+encrypt(encryptParams).then(res => {
+  delete res.KeyId;
+  decrypt(res).then(res => {
+    const decryptedSecret = res.Plaintext.toString();
+    console.log({
+      decryptedSecret
+    });
+  }, console.error);
+}, console.error);
+
 // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#encrypt-property
-kms.encrypt(encryptParams, (err, data) => {
-  if (err) {
-    console.log(err, err.stack);
-  } else {
-    delete data.KeyId;
-    decrypt(data);
-  }
-});
