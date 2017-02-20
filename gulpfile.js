@@ -54,7 +54,7 @@ gulp.task('decrypt', () => {
 
   Promise.all(promises).then(res => {
     console.log({
-      plaintext: res.map(r => r.Plaintext.toString())
+      Plaintext: res.map(r => r.Plaintext.toString())
     });
   }, err => console.error(err));
 });
