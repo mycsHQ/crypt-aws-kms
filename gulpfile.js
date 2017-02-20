@@ -1,30 +1,23 @@
 const
-  KMS = require('./KMS.js'),
+  KMS = require('./lib/KMS.js'),
   gulp = require('gulp'),
   argv = require('yargs').argv;
 
-
+/**
+ * @param {object} args command line arguments parsed by yargs
+ * @returns {object} files, data, key
+ * @description extract args from cl call
+ */
 const getArgs = (args) => {
-  let {
-    f: files = [],
-    d: data = []
-  } = args;
-
   const {
+    f: files = [],
+    d: data = [],
     k: key
   } = args;
 
-  if (!(files instanceof Array)) {
-    files = [files];
-  }
-
-  if (!(data instanceof Array)) {
-    data = [data];
-  }
-
   return {
-    files,
-    data,
+    files: !(files instanceof Array) ? [files] : files,
+    data: !(data instanceof Array) ? [data] : data,
     key
   };
 };
@@ -43,11 +36,7 @@ gulp.task('encrypt', () => {
     ...data.map((d) => kms.encryptData(`${ d }`))
   ];
 
-  Promise.all(promises).then(res => {
-    console.log({
-      res
-    });
-  }, err => console.error(err));
+  Promise.all(promises).then(console.log, console.error);
 });
 
 gulp.task('decrypt', () => {
@@ -64,9 +53,8 @@ gulp.task('decrypt', () => {
   ];
 
   Promise.all(promises).then(res => {
-    const plaintext = res.map(r => r.Plaintext.toString());
     console.log({
-      plaintext
+      plaintext: res.map(r => r.Plaintext.toString())
     });
   }, err => console.error(err));
 });
