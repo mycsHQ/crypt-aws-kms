@@ -94,7 +94,11 @@ class KMS {
           const {
             CiphertextBlob
           } = data;
-          writeToDisk && fs.writeFileSync(`${ filePath }/encr_${ this.counter++ }`, CiphertextBlob);
+          if (writeToDisk) {
+            const file = `${ filePath }/encr_${ this.counter++ }`;
+            fs.writeFileSync(file, CiphertextBlob);
+            console.log(`Encrypted "${ Plaintext }" stored in "${ file }"`);
+          }
           resolve(CiphertextBlob);
         }
       });
@@ -114,9 +118,8 @@ class KMS {
   decryptFile(filePath) {
     if (!fs.existsSync(filePath)) {
       throw new Error(`File ${ filePath } does not exist`);
-    } else {
-      return this.decryptData(fs.readFileSync(filePath));
     }
+    return this.decryptData(fs.readFileSync(filePath));
   }
 
   /**

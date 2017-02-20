@@ -6,8 +6,11 @@ const
 
 const getArgs = (args) => {
   let {
-    f: files,
-    d: data,
+    f: files = [],
+    d: data = []
+  } = args;
+
+  const {
     k: key
   } = args;
 
@@ -27,7 +30,6 @@ const getArgs = (args) => {
 };
 
 gulp.task('encrypt', () => {
-
   const {
     files,
     data,
@@ -52,16 +54,14 @@ gulp.task('decrypt', () => {
   const {
     files,
     data
-  } = getArgs(argv, false);
+  } = getArgs(argv);
 
   const kms = new KMS();
 
   const promises = [
     ...files.map(f => kms.decryptFile(f)),
-    ...data.map(d => kms.decryptData(d))
+    ...data.map(d => kms.decryptData(`${ d }`))
   ];
-
-  console.log(files);
 
   Promise.all(promises).then(res => {
     const plaintext = res.map(r => r.Plaintext.toString());
