@@ -84,7 +84,7 @@ describe('KMS:', () => {
   });
 
   it('decrypts files via command line', () => {
-    const cmd = `npm run decrypt -- -f ${ encryptedFile1 } -f ${ encryptedFile2 } }`;
+    const cmd = `npm run decrypt -- -f ${ encryptedFile1 } -f ${ encryptedFile2 }`;
     return new Promise(resolver(cmd)).then(({
       stdout
     }) => {

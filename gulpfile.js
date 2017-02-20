@@ -12,49 +12,107 @@ const getArgs = (args) => {
   const {
     f: files = [],
     d: data = [],
-    k: key
+    k: KeyId,
+    r: region,
+    aK: accessKeyId,
+    sK: secretAccessKey,
+    sT: sessionToken,
   } = args;
 
   return {
     files: !(files instanceof Array) ? [files] : files,
     data: !(data instanceof Array) ? [data] : data,
-    key
+    KeyId,
+    region,
+    accessKeyId,
+    secretAccessKey,
+    sessionToken
   };
 };
 
-gulp.task('encrypt', () => {
+const getPromises = (encrypt) => {
   const {
     files,
     data,
-    key
+    KeyId,
+    region,
+    accessKeyId,
+    secretAccessKey,
+    sessionToken
   } = getArgs(argv);
 
-  const kms = new KMS(key);
+  const kms = new KMS(KeyId, accessKeyId, secretAccessKey, sessionToken, region);
 
-  const promises = [
-    ...files.map((f) => kms.encryptFile(f)),
-    ...data.map((d) => kms.encryptData(`${ d }`))
+  return [
+    ...files.map((f) => encrypt ? kms.encryptFile(f) : kms.decryptFile(f)),
+    ...data.map((d) => encrypt ? kms.encryptData(`${ d }`) : kms.decryptData(`${ d }`))
   ];
+};
 
-  Promise.all(promises).then(console.log, console.error);
+gulp.task('encrypt', () => {
+  Promise.all(getPromises(true)).then(console.log, console.error);
 });
 
 gulp.task('decrypt', () => {
-  const {
-    files,
-    data
-  } = getArgs(argv);
-
-  const kms = new KMS();
-
-  const promises = [
-    ...files.map(f => kms.decryptFile(f)),
-    ...data.map(d => kms.decryptData(`${ d }`))
-  ];
-
-  Promise.all(promises).then(res => {
+  Promise.all(getPromises(false)).then(res => {
     console.log({
       Plaintext: res.map(r => r.Plaintext.toString())
     });
   }, err => console.error(err));
+});
+
+gulp.task('create:key', () => {
+
+  if (argv.a === undefined) {
+    throw new Error('"Alias" (-a) has to be passed as param');
+  }
+  const AliasName = argv.a;
+  delete argv.a;
+
+  const {
+    k,
+    r,
+    aK,
+    sK,
+    sT,
+  } = argv;
+
+  const vals = {
+    b: 'BypassPolicyLockoutSafetyCheck',
+    d: 'Description',
+    k: 'KeyUsage',
+    o: 'Origin',
+    p: 'Policy',
+    tk: 'TagKey',
+    tv: 'TagValue'
+  };
+
+  const params = Object.keys(vals).reduce((obj, key) => {
+    const arg = argv[key];
+    if (arg !== undefined) {
+      if (arg === 'tk' || arg === 'tv') {
+        obj.Tags = {
+          [vals[key]]: arg
+        };
+      } else {
+        obj[vals[key]] = arg;
+      }
+    }
+    return obj;
+  }, {});
+
+  const kms = new KMS(k, r, aK, sK, sT);
+
+  kms.createKey(params).then((res) => {
+    const {
+      KeyId: TargetKeyId
+    } = res;
+    kms.createAlias({
+      AliasName,
+      TargetKeyId
+    }).then((ures) => {
+      console.log(`"${ AliasName }" key created`);
+      console.log(res);
+    }, console.error);
+  }, console.error);
 });

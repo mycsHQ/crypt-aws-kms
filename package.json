@@ -7,7 +7,8 @@
     "start": "node index.js",
     "test": "jest",
     "encrypt": "gulp encrypt",
-    "decrypt": "gulp decrypt"
+    "decrypt": "gulp decrypt",
+    "create:key": "gulp create:key"
   },
   "repository": {
     "type": "git",
