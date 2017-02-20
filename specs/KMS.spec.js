@@ -83,9 +83,8 @@ describe('KMS:', () => {
     }, rejectionTest);
   });
 
-  it('decrypts file and data via command line', () => {
-    console.log(Buffer.from(encryptedData).toString('base64'));
-    const cmd = `npm run decrypt -- -f ${ encryptedFile1 } -f ${ encryptedFile2 } #-d ${ encryptedData.toString('base64') }`;
+  it('decrypts files via command line', () => {
+    const cmd = `npm run decrypt -- -f ${ encryptedFile1 } -f ${ encryptedFile2 } }`;
     return new Promise(resolver(cmd)).then(({
       stdout
     }) => {
