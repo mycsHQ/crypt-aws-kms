@@ -32,6 +32,7 @@ Additional valid args.
     -f: 'files',
     -d: 'data',
     -k: 'KeyId', // required for encryption
+    -p: 'Path' // specify path for created encrypted files
 }
 ```
 

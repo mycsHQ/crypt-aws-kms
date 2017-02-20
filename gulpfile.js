@@ -17,6 +17,7 @@ const getArgs = (args) => {
     aK: accessKeyId,
     sK: secretAccessKey,
     sT: sessionToken,
+    p: path
   } = args;
 
   return {
@@ -26,7 +27,8 @@ const getArgs = (args) => {
     region,
     accessKeyId,
     secretAccessKey,
-    sessionToken
+    sessionToken,
+    path
   };
 };
 
@@ -38,14 +40,15 @@ const getPromises = (encrypt) => {
     region,
     accessKeyId,
     secretAccessKey,
-    sessionToken
+    sessionToken,
+    path
   } = getArgs(argv);
 
   const kms = new KMS(KeyId, accessKeyId, secretAccessKey, sessionToken, region);
 
   return [
-    ...files.map((f) => encrypt ? kms.encryptFile(f) : kms.decryptFile(f)),
-    ...data.map((d) => encrypt ? kms.encryptData(`${ d }`) : kms.decryptData(`${ d }`))
+    ...files.map((f) => encrypt ? kms.encryptFile(f, path) : kms.decryptFile(f)),
+    ...data.map((d) => encrypt ? kms.encryptData(`${ d }`, path) : kms.decryptData(`${ d }`))
   ];
 };
 
@@ -62,7 +65,6 @@ gulp.task('decrypt', () => {
 });
 
 gulp.task('create:key', () => {
-
   if (argv.a === undefined) {
     throw new Error('"Alias" (-a) has to be passed as param');
   }
