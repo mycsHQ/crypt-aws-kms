@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "encrypt": "gulp encrypt",
+    "decrypt": "gulp decrypt"
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,8 @@
     "eslint-config-airbnb-base": "^11.1.0",
     "eslint-config-mycs": "^1.1.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-react": "^6.10.0"
+    "eslint-plugin-react": "^6.10.0",
+    "gulp": "^3.9.1",
+    "yargs": "^6.6.0"
   }
 }
