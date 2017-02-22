@@ -8,9 +8,31 @@ TODO: Write a project description
 npm install
 ```
 
-## Script Usage
+## Usage
 
-Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#constructor-property "AWS.KMS") instance in [`encrypt`](#encrypt), [`decrypt`](#decrypt) and [`create:key`](#createKey):
+### Use `mycs-kms` command globally
+```bash
+npm install -g && npm link
+```
+
+### Use locally
+```bash
+./cli/mycs-kms.js [options]
+```
+
+### Access Help Menus
+
+```bash
+# global
+mycs-kms -h
+mycs-kms [encrypt|decrypt|create-key] -h
+# local
+./cli/mycs-kms.js -h
+./cli/mycs-kms.js [encrypt|decrypt|create-key] -h
+```
+___
+
+Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#constructor-property "AWS.KMS") instance in [`encrypt`](#encrypt), [`decrypt`](#decrypt) and [`create-key`](#createKey):
 
 ```javascript
 {
@@ -22,61 +44,52 @@ Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJa
 ```
 
 > if the accessKeyId, secretAccessKey or sessionToken is omitted the globally stored aws credentials are used
-
+___
 <a name="encrypt"></a>
-## [encrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#encrypt-property "encrypt aws docu")
+### [encrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#encrypt-property "encrypt aws docu")
+
+```bash
+mycs-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt
+
+mycs-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt
+```
 
 Additional valid args.
 ```javascript
 {
-    -f: 'files',
-    -d: 'data',
-    -k: 'KeyId', // required for encryption
-    -p: 'Path' // specify path for created encrypted files
+    -k: 'KeyId', // required!!
+    -p: 'Path' // specify path for encrypted files
 }
 ```
 
-```bash
-npm run encrypt -- -k KeyId -d string1 (-d string2 ...) -f path1 (-f path2 ...)
-```
-
-> To encrypt multiple files or dataStrings use -d / -f multiple times
-
+> files have to begin with "./", "/" or "~/"
+___
 <a name="decrypt"></a>
-## [decrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property "decrypt aws docu")
-
-Additional valid args.
-```javascript
-{
-    -f: 'files',
-    -d: 'data',
-}
-```
+### [decrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property "decrypt aws docu")
 
 ```bash
-npm run decrypt -- -d string1 (-d string2 ...) -f path1 (-f path2 ...)
+mycs-kms decrypt dataToEncrypt ~/fileToEncrypt
 ```
-
-> To decrypt multiple files or dataStrings use -d / -f multiple times
-
+> files have to begin with "./", "/" or "~/"
+___
 <a name="createKey"></a>
-## [create:key](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#createKey-property "createKey aws docu")
+### [create-key](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#createKey-property "createKey aws docu")
+
+```bash
+mycs-kms create-key AliasName -d "This is the description"
+```
 
 Additional valid args.
 ```javascript
 {
-    -a: 'Alias', // required
     -b: 'BypassPolicyLockoutSafetyCheck',
     -d: 'Description',
     -k: 'KeyUsage',
     -o: 'Origin',
     -p: 'Policy',
-    -tk: 'TagKey',
-    -tv: 'TagValue'
+    -t: 'Tags'
 }
 ```
-
-> To decrypt multiple files or dataStrings use -d / -f multiple times
 
 ## Requirements
 

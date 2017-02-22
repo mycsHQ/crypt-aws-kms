@@ -1,5 +1,6 @@
 const
   fs = require('fs'),
+  path = require('path'),
   exec = require('child_process').exec,
   KMS = require('../lib/KMS');
 
@@ -67,16 +68,16 @@ describe('KMS:', () => {
   };
 
   it('encrypts file and data via command line', () => {
-    const cmd = `npm run encrypt -- -f ${ fileToEncrypt } -d EncryptThis -k ${ KeyId }`;
+    const cmd = `./cli/mycs-kms.js encrypt -k ${ KeyId } ${ fileToEncrypt } EncryptThis`;
     return new Promise(resolver(cmd)).then(({
       stdout
     }) => {
       expect(stdout).toBeDefined();
-      const regex = /file: '(.*?)'/g;
+      const regex = /stored in "(.*?)"/g;
       let match = regex.exec(stdout);
       while (match !== null) {
-        const file = match[1];
-        file.startsWith('./test') ? encryptedFile1 = file : encryptedFile2 = file;
+        const file = path.resolve(__dirname, '..', match[1]);
+        file.indexOf('test') > -1 ? encryptedFile1 = file : encryptedFile2 = file;
         expect(fs.existsSync(file)).toBe(true);
         match = regex.exec(stdout);
       }
@@ -84,7 +85,7 @@ describe('KMS:', () => {
   });
 
   it('decrypts files via command line', () => {
-    const cmd = `npm run decrypt -- -f ${ encryptedFile1 } -f ${ encryptedFile2 }`;
+    const cmd = `./cli/mycs-kms.js decrypt ${ encryptedFile1 } ${ encryptedFile2 }`;
     return new Promise(resolver(cmd)).then(({
       stdout
     }) => {
