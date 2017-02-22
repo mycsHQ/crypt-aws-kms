@@ -44,7 +44,7 @@ Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJa
 ```
 
 > if the accessKeyId, secretAccessKey or sessionToken is omitted the globally stored aws credentials are used
-___
+
 <a name="encrypt"></a>
 ### [encrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#encrypt-property "encrypt aws docu")
 
@@ -63,7 +63,7 @@ Additional valid args.
 ```
 
 > files have to begin with "./", "/" or "~/"
-___
+
 <a name="decrypt"></a>
 ### [decrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property "decrypt aws docu")
 
@@ -71,7 +71,7 @@ ___
 mycs-kms decrypt dataToEncrypt ~/fileToEncrypt
 ```
 > files have to begin with "./", "/" or "~/"
-___
+
 <a name="createKey"></a>
 ### [create-key](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#createKey-property "createKey aws docu")
 
