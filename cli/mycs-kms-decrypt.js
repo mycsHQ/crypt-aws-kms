@@ -30,24 +30,30 @@ program
       process.exit(1);
     }
 
-    const promises = args
-      .map(arg => {
-        if (arg.startsWith('./') || arg.startsWith('/')) {
-          if (fs.existsSync(arg)) {
-            return kms.decryptFile(arg);
-          }
-          console.error(`file "${ arg }" does not exist`);
-          return undefined;
+    const promises = args.map(arg => {
+      if (arg.startsWith('./') || arg.startsWith('/')) {
+        if (fs.existsSync(arg)) {
+          return kms.decryptFile(arg);
         }
-        return kms.decryptData(arg);
-      });
+        console.error(`file "${ arg }" does not exist`);
+        return undefined;
+      }
+      return kms.decryptData(arg);
+    });
 
 
     Promise.all(promises).then(res => {
-      console.log({
-        Plaintext: res.map(r => r.Plaintext.toString())
-      });
-    }, err => console.error(err));
+      console.log('');
+      console.log('> Decryption results:');
+      console.log(
+        JSON.stringify(res.reduce((obj, r, i) => {
+          if (r) {
+            obj[`decr_${ i }`] = r.Plaintext.toString();
+          }
+          return obj;
+        }, {}), null, 2));
+      console.log('');
+    }, console.error);
   });
 
 program.on('--help', () => {

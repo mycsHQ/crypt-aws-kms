@@ -8,7 +8,7 @@ program
   .command('encrypt <files|data> [options]', 'encrypt files and datastrings (files have to begin with "./", "/" or "~/")', {
     isDefault: true
   })
-  .command('decrypt <files|data> [options]', 'encrypt files and datastrings (files have to begin with "./", "/" or "~/")')
+  .command('decrypt <files|data> [options]', 'decrypt files and base64-datastrings (files have to begin with "./", "/" or "~/")')
   .command('create-key <AliasName> [options]', 'create kms key (AliasName has to begin with "alias/")');
 
 program.on('--help', () => {
