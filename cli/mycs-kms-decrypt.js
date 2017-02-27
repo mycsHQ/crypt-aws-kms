@@ -58,9 +58,6 @@ program
           return obj;
         }, {}), null, 2));
       console.log('');
-    }, err => {
-      console.log('Promise rejection');
-      console.log(err.code);
     });
   });
 

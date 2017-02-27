@@ -64,15 +64,20 @@ program
         console.log('> Encryption results (base64-string):');
         console.log(
           JSON.stringify(res.reduce((obj, {
+            Plaintext,
             CiphertextBlob,
             code,
             message
-          }, i) => {
-            obj[`encr_${ i }`] = CiphertextBlob ? CiphertextBlob.toString('base64') : `ERROR ${ code || message }`;
+          }) => {
+            let key = CiphertextBlob ? Plaintext.toString() : 'ERROR';
+            if (key.length > 9) {
+              key = `${ key.substring(0, 10) }...`;
+            }
+            obj[key] = CiphertextBlob ? CiphertextBlob.toString('base64') : code || message;
             return obj;
           }, {}), null, 2));
         console.log('');
-      }, console.error);
+      });
     });
   });
 

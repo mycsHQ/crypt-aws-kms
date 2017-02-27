@@ -58,11 +58,12 @@ Additional valid args.
 ```javascript
 {
     -k: 'KeyId', // required!!
-    -p: 'Path' // specify path for encrypted files
+    -p: 'Path' // if results should be stored in binary file - specify path
 }
 ```
 
 > files have to begin with "./", "/" or "~/"
+> the results are displayed as base64 string in console
 
 <a name="decrypt"></a>
 ### [decrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property "decrypt aws docu")
@@ -71,6 +72,7 @@ Additional valid args.
 mycs-kms decrypt dataToEncrypt ~/fileToEncrypt
 ```
 > files have to begin with "./", "/" or "~/"
+> data strings have to be base64 encrypted
 
 <a name="createKey"></a>
 ### [create-key](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#createKey-property "createKey aws docu")
