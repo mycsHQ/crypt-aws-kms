@@ -49,23 +49,26 @@ program
           if (fs.existsSync(arg)) {
             return kms.encryptFile(arg, path);
           }
-          const CiphertextBlob = `file "${ arg }" does not exist`;
-          console.error(CiphertextBlob);
-          return {
-            CiphertextBlob
-          };
+          return Promise.resolve({
+            message: `file "${ arg }" does not exist`
+          });
         }
         return kms.encryptData(arg, path);
       });
 
-      Promise.all(promises).then(res => {
+      const softFail = (promise) =>
+        new Promise((resolve, reject) => promise.then(resolve).catch(resolve));
+
+      Promise.all(promises.map(softFail)).then(res => {
         console.log('');
         console.log('> Encryption results (base64-string):');
         console.log(
-          JSON.stringify(res.reduce((obj, r, i) => {
-            if (r) {
-              obj[`encr_${ i }`] = r.CiphertextBlob.toString('base64');
-            }
+          JSON.stringify(res.reduce((obj, {
+            CiphertextBlob,
+            code,
+            message
+          }, i) => {
+            obj[`encr_${ i }`] = CiphertextBlob ? CiphertextBlob.toString('base64') : `ERROR ${ code || message }`;
             return obj;
           }, {}), null, 2));
         console.log('');

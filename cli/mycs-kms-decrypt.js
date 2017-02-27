@@ -35,25 +35,33 @@ program
         if (fs.existsSync(arg)) {
           return kms.decryptFile(arg);
         }
-        console.error(`file "${ arg }" does not exist`);
-        return undefined;
+        return Promise.resolve({
+          message: `file "${ arg }" does not exist`
+        });
       }
       return kms.decryptData(arg);
     });
 
+    const softFail = (promise) =>
+      new Promise((resolve, reject) => promise.then(resolve).catch(resolve));
 
-    Promise.all(promises).then(res => {
+    Promise.all(promises.map(softFail)).then(res => {
       console.log('');
       console.log('> Decryption results:');
       console.log(
-        JSON.stringify(res.reduce((obj, r, i) => {
-          if (r) {
-            obj[`decr_${ i }`] = r.Plaintext.toString();
-          }
+        JSON.stringify(res.reduce((obj, {
+          Plaintext,
+          code,
+          message
+        }, i) => {
+          obj[`decr_${ i }`] = Plaintext ? Plaintext.toString() : `ERROR ${ code || message }`;
           return obj;
         }, {}), null, 2));
       console.log('');
-    }, console.error);
+    }, err => {
+      console.log('Promise rejection');
+      console.log(err.code);
+    });
   });
 
 program.on('--help', () => {
