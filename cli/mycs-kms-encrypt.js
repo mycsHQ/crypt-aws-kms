@@ -29,7 +29,6 @@ program
     } = program;
 
     co(function*() {
-
       args = args.slice(0, -1);
       if (!args.length) {
         console.error('data required');
@@ -43,17 +42,34 @@ program
 
       const kms = new KMS(key, accessKey, secretKey, sessionToken, region);
 
-      for (const arg of args) {
+      console.log('');
+
+      const promises = args.map(arg => {
         if (arg.startsWith('./') || arg.startsWith('/')) {
           if (fs.existsSync(arg)) {
-            kms.encryptFile(arg, path);
-          } else {
-            console.error(`file "${ arg }" does not exist`);
+            return kms.encryptFile(arg, path);
           }
-        } else {
-          kms.encryptData(arg, path);
+          const CiphertextBlob = `file "${ arg }" does not exist`;
+          console.error(CiphertextBlob);
+          return {
+            CiphertextBlob
+          };
         }
-      }
+        return kms.encryptData(arg, path);
+      });
+
+      Promise.all(promises).then(res => {
+        console.log('');
+        console.log('> Encryption results (base64-string):');
+        console.log(
+          JSON.stringify(res.reduce((obj, r, i) => {
+            if (r) {
+              obj[`encr_${ i }`] = r.CiphertextBlob.toString('base64');
+            }
+            return obj;
+          }, {}), null, 2));
+        console.log('');
+      }, console.error);
     });
   });
 
