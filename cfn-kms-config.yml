@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Creates a KMS key and attaches a policy to allow specified iam user the adminstration,  specified devs the encryption and decryption as the instance role the decryption of values via the masterkey'
+
+Resources:
+  KmsSecretMasterKey:
+    Type: AWS::KMS::Key
+    Description: 'The AWS KMS key to be used for encryption of secrets in the codebase'
+    Properties:
+      KeyPolicy:
+        Id: MasterKeyPolicy
+        Statement:
+          -
+            Sid: 'Allow administration of the key'
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Join [':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'user/johann@mycs.com'  ]]
+            Action: [
+              kms:Create*,
+              kms:Describe*,
+              kms:Enable*,
+              kms:List*,
+              kms:Put*,
+              kms:Update*,
+              kms:Revoke*,
+              kms:Disable*,
+              kms:Get*,
+              kms:Delete*,
+              kms:ScheduleKeyDeletion,
+              kms:CancelKeyDeletion
+            ]
+            Resource: '*'
+          -
+            Sid: 'Allow decryption/encryption for devs'
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Join [':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'user/johann@mycs.com'  ]]
+                - !Join [':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'user/nicolas@mycs.com'  ]]
+                - !Join [':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'user/claudio@mycs.com'  ]]
+                # TODO set up more developers
+            Action: [
+              kms:Encrypt,
+              kms:Decrypt,
+              kms:ReEncrypt*,
+              kms:GenerateDataKey*,
+              kms:DescribeKey
+            ]
+            Resource: '*'
+          -
+            Sid: 'Allow decryption for instances'
+            Effect: Allow
+            Principal:
+              AWS: !Join [ ':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'role/services-shinobi-dev-ApiInstanceRole-JHFK6NRWDKEY' ]]
+            Action: [
+              kms:Decrypt
+              kms:DescribeKey
+            ]
+            Resource: '*'
+
+Outputs:
+  MasterKeyArn:
+    Value: !GetAtt KmsSecretMasterKey.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-MasterKeyArn'
+  MasterKeyId:
+    Value: !Ref KmsSecretMasterKey
+    Export:
+      Name: !Sub '${AWS::StackName}-MasterKeyId'
