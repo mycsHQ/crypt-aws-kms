@@ -5,10 +5,21 @@ const
   program = require('commander'),
   KMS = require('../lib/KMS.js');
 
+/**
+ * do not fail the promise.all call if one promise fails, but catch the errors and return them
+ * @param {promise} promise
+ */
+const softFail = (promise) =>
+  new Promise((resolve, reject) => promise.then(resolve)
+    .catch(resolve));
+
 program
-  .option('-r, --region [string]', 'The aws-region of the kms key (defaults to "eu-west-1")')
-  .option('-aK, --accessKey [string]', 'The accessKeyId for aws (defaults to global credentials)')
-  .option('-sK, --secretKey [string]', 'The secretAccessKey for aws (defaults to global credentials)')
+  .option('-r, --region [string]',
+    'The aws-region of the kms key (defaults to "eu-west-1")')
+  .option('-aK, --accessKey [string]',
+    'The accessKeyId for aws (defaults to global credentials)')
+  .option('-sK, --secretKey [string]',
+    'The secretAccessKey for aws (defaults to global credentials)')
   .option('-sT, --sessionToken [string]', 'The sessionToken for aws')
   .action(() => {
     const {
@@ -18,9 +29,7 @@ program
       sessionToken
     } = program;
 
-    let {
-      args
-    } = program;
+    let { args } = program;
 
     const kms = new KMS(undefined, accessKey, secretKey, sessionToken, region);
 
@@ -42,23 +51,22 @@ program
       return kms.decryptData(arg);
     });
 
-    const softFail = (promise) =>
-      new Promise((resolve, reject) => promise.then(resolve).catch(resolve));
-
-    Promise.all(promises.map(softFail)).then(res => {
-      console.log('');
-      console.log('> Decryption results:');
-      console.log(
-        JSON.stringify(res.reduce((obj, {
-          Plaintext,
-          code,
-          message
-        }, i) => {
-          obj[`decr_${ i }`] = Plaintext ? Plaintext.toString() : `ERROR ${ code || message }`;
-          return obj;
-        }, {}), null, 2));
-      console.log('');
-    });
+    Promise.all(promises.map(softFail))
+      .then(res => {
+        console.log('');
+        console.log('> Decryption results:');
+        console.log(
+          JSON.stringify(res.reduce((obj, {
+            Plaintext,
+            code,
+            message
+          }, i) => {
+            obj[`decr_${ i }`] = Plaintext ? Plaintext.toString() :
+              `ERROR ${ code || message }`;
+            return obj;
+          }, {}), null, 2));
+        console.log('');
+      });
   });
 
 program.on('--help', () => {

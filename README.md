@@ -10,6 +10,21 @@ npm install
 
 ## Usage
 
+### Use in code
+
+```javascript
+const KMS = require('../lib/KMS');
+const KeyId = '123-456-789';
+
+// uses global aws credentials
+new KMS(KeyId)
+        .encryptData('foo')
+        .then(({ CiphertextBlob }) => {
+            // returns a buffer
+            console.log(CiphertextBlob.toString('base64'));
+        }, err => console.error(err));
+```
+
 ### Use `mycs-kms` command globally
 ```bash
 npm install -g && npm link
@@ -25,14 +40,15 @@ npm install -g && npm link
 ```bash
 # global
 mycs-kms -h
-mycs-kms [encrypt|decrypt|create-key] -h
+mycs-kms [encrypt|decrypt] -h
+
 # local
 ./cli/mycs-kms.js -h
-./cli/mycs-kms.js [encrypt|decrypt|create-key] -h
+./cli/mycs-kms.js [encrypt|decrypt] -h
 ```
 ___
 
-Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#constructor-property "AWS.KMS") instance in [`encrypt`](#encrypt), [`decrypt`](#decrypt) and [`create-key`](#createKey):
+Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#constructor-property "AWS.KMS") instance in [`encrypt`](#encrypt) and [`decrypt`](#decrypt):
 
 ```javascript
 {
@@ -73,25 +89,6 @@ mycs-kms decrypt dataToEncrypt ~/fileToEncrypt
 ```
 > files have to begin with "./", "/" or "~/"
 > data strings have to be base64 encrypted
-
-<a name="createKey"></a>
-### [create-key](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#createKey-property "createKey aws docu")
-
-```bash
-mycs-kms create-key AliasName -d "This is the description"
-```
-
-Additional valid args.
-```javascript
-{
-    -b: 'BypassPolicyLockoutSafetyCheck',
-    -d: 'Description',
-    -k: 'KeyUsage',
-    -o: 'Origin',
-    -p: 'Policy',
-    -t: 'Tags'
-}
-```
 
 ## Requirements
 
