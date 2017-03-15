@@ -30,7 +30,7 @@ kms
     .decryptData('encryptedBase64Foo')
     .then(({ Plaintext }) => {
         // returns a buffer
-        console.log(Plaintext);
+        console.log(Plaintext.toString());
     }, err => console.error(err));
 ```
 
