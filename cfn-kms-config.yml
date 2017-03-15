@@ -51,7 +51,9 @@ Resources:
             Sid: 'Allow decryption for instances'
             Effect: Allow
             Principal:
-              AWS: !Join [ ':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'role/services-shinobi-dev-ApiInstanceRole-JHFK6NRWDKEY' ]]
+              AWS:
+                - !Join [ ':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'role/services-shinobi-dev-ApiInstanceRole-JHFK6NRWDKEY' ]]
+                - !Join [ ':', [ 'arn:aws:iam:', !Ref 'AWS::AccountId', 'user/circlecio' ]]
             Action: [
               kms:Decrypt
               kms:DescribeKey
