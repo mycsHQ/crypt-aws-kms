@@ -54,6 +54,16 @@ describe('KMS:', () => {
     }, rejectionTest);
   });
 
+  it('decrypts data synchronous', () => {
+    const PlaintextBuffer = new KMS().decryptDataSync(
+      'AQECAHhIFbZUGAc4qgAvFeZ69Enikm5z86PnjykUJUN72zMzHwAAAGQw' +
+      'YgYJKoZIhvcNAQcGoFUwUwIBADBOBgkqhkiG9w0BBwEwHgYJYIZIAWUD' +
+      'BAEuMBEEDCR3rJdGKUyQJ3xohQIBEIAhzNh4BnXrD8KGhuEJO+E1FdWB' +
+      '6X8TH/g7K1sMxzUPffCy'
+      );
+    expect(PlaintextBuffer.toString()).toBe('foobar');
+  });
+
   const resolver = (cmd) => (resolve, reject) => {
     exec(cmd, (err, stdout, stderr) => {
       if (err || stderr) {
