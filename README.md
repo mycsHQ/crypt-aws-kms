@@ -16,13 +16,22 @@ npm install
 const KMS = require('../lib/KMS');
 const KeyId = '123-456-789';
 
+const kms = new KMS(KeyId);
 // uses global aws credentials
-new KMS(KeyId)
-        .encryptData('foo')
-        .then(({ CiphertextBlob }) => {
-            // returns a buffer
-            console.log(CiphertextBlob.toString('base64'));
-        }, err => console.error(err));
+kms
+    .encryptData('foo')
+    .then(({ CiphertextBlob }) => {
+        // returns a buffer
+        console.log(CiphertextBlob.toString('base64'));
+    }, err => console.error(err));
+
+// uses global aws credentials
+kms
+    .decryptData('encryptedBase64Foo')
+    .then(({ Plaintext }) => {
+        // returns a buffer
+        console.log(Plaintext);
+    }, err => console.error(err));
 ```
 
 ### Use `mycs-kms` command globally
