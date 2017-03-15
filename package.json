@@ -2,7 +2,7 @@
   "name": "mycs-kms",
   "version": "0.0.1",
   "description": "Helper library for use of aws-kms service",
-  "main": "./cli/mycs-kms.js",
+  "main": "./lib/KMS.js",
   "bin": {
     "mycs-kms": "./cli/mycs-kms.js"
   },
