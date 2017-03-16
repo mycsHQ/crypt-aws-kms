@@ -13,7 +13,7 @@ npm install
 ### Use in code
 
 ```javascript
-const { KMS } = require('../lib/KMS');
+const { KMS } = require('./lib/KMS');
 const KeyId = '123-456-789';
 
 const kms = new KMS(KeyId);
@@ -30,9 +30,15 @@ kms.decryptData('encryptedBase64Foo')
         console.log(Plaintext.toString());
     }, err => console.error(err));
 
-// this relies on [deasync](https://github.com/abbr/deasync "deasync") package and is in an experimental state
-const PlaintextBuffer = kms.decryptDataSync('encryptedBase64Foo');
-console.log(PlaintextBuffer.toString());
+// you could always wrap the functions into an async functions to have an synchronous workflow
+decryptAsync();
+
+async function decryptAsync() {
+  const { CiphertextBlob } = await kms.encryptData('foo');
+  const { Plaintext } = await kms.decryptData(CiphertextBlob);
+  console.log({ decryptedSecret: Plaintext.toString() });
+}
+
 ```
 
 ### Use `crypt-kms` command globally
