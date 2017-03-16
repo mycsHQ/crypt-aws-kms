@@ -24,6 +24,7 @@
     "email": "contact@johannroehl.de",
     "url": "https://github.com/mycsHQ/crypt-aws-kms"
   },
+  "license" : "MIT",
   "bugs": {
     "url": "https://github.com/mycshq/crypt-aws-kms/issues"
   },
