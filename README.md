@@ -108,7 +108,7 @@ crypt-kms decrypt dataToEncrypt ~/fileToEncrypt
 
 ## License
 MIT
-© crypt 2015
+© mycs 2015
 
 ## Maintainer
 [jroehl](https://github.com/jroehl "jroehl")
