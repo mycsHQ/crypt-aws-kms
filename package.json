@@ -1,10 +1,10 @@
 {
-  "name": "crypt-kms",
+  "name": "crypt-aws-kms",
   "version": "0.0.1",
   "description": "Helper library for use of aws-kms service",
   "main": "./lib/KMS.js",
   "bin": {
-    "crypt-kms": "./cli/crypt-kms.js"
+    "crypt": "./cli/crypt.js"
   },
   "scripts": {
     "test": "jest"

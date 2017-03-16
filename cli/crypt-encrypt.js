@@ -5,7 +5,8 @@ const
   program = require('commander'),
   co = require('co'),
   prompt = require('co-prompt'),
-  { KMS, softFail } = require('../lib/KMS.js');
+  KMS = require('../lib/KMS'),
+  { softFail } = require('../lib/helper');
 
 program
   .option('-k, --key <key>', 'The keyId of the master key')
@@ -89,10 +90,10 @@ program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
   console.log(
-    '    $ crypt-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt'
+    '    $ crypt encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt'
   );
   console.log(
-    '    $ crypt-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt'
+    '    $ crypt -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt'
   );
   console.log('');
 });

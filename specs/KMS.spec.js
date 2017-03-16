@@ -2,7 +2,8 @@ const
   fs = require('fs'),
   path = require('path'),
   exec = require('child_process').exec,
-  { KMS } = require('../lib/KMS'),
+  KMS = require('../lib/KMS'),
+  Crypt = require('../lib/Crypt'),
   { keyId } = require('../config');
 
 
@@ -69,20 +70,6 @@ describe('KMS:', () => {
       }, rejectionTest);
   });
 
-  // it('decrypts data synchronous', () => {
-  //   return new Promise((resolve, reject) => {
-  //     const PlaintextBuffer = new KMS()
-  //       .decryptDataSync(
-  //         'AQECAHhIFbZUGAc4qgAvFeZ69Enikm5z86PnjykUJUN72zMzHwAAAGQw' +
-  //         'YgYJKoZIhvcNAQcGoFUwUwIBADBOBgkqhkiG9w0BBwEwHgYJYIZIAWUD' +
-  //         'BAEuMBEEDCR3rJdGKUyQJ3xohQIBEIAhzNh4BnXrD8KGhuEJO+E1FdWB' +
-  //         '6X8TH/g7K1sMxzUPffCy'
-  //       );
-  //     expect(PlaintextBuffer.toString())
-  //       .toBe('foobar');
-  //   });
-  // });
-
   const resolver = (cmd) => (resolve, reject) => {
     exec(cmd, (err, stdout, stderr) => {
       if (err || stderr) {
@@ -99,7 +86,7 @@ describe('KMS:', () => {
 
   it('encrypts file and data via command line', () => {
     const cmd =
-      `./cli/crypt-kms.js encrypt -p ./test -k ${ keyId } ${ fileToEncrypt } EncryptThis`;
+      `./cli/crypt.js encrypt -p ./test -k ${ keyId } ${ fileToEncrypt } EncryptThis`;
     return new Promise(resolver(cmd))
       .then(({
         stdout
@@ -120,7 +107,7 @@ describe('KMS:', () => {
 
   it('decrypts files and data via command line', () => {
     const cmd =
-      `./cli/crypt-kms.js decrypt ${ encryptedFiles.toString().replace(',', ' ') } AQECAHhhhtrQNZheJkiGg/z5m7eUR5dmM80wdxAI2ARO0dJHgQAAAGQwYgYJKoZIhvcNAQcGoFUwUwIBADBOBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDBGvjxq8UJ0bDK5fXgIBEIAhc6uwdMrhpmd/MgkxOgJOYm3aFIKkaY+i64E2HlOlWrlr`;
+      `./cli/crypt.js decrypt ${ encryptedFiles.toString().replace(',', ' ') } AQECAHhhhtrQNZheJkiGg/z5m7eUR5dmM80wdxAI2ARO0dJHgQAAAGQwYgYJKoZIhvcNAQcGoFUwUwIBADBOBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDBGvjxq8UJ0bDK5fXgIBEIAhc6uwdMrhpmd/MgkxOgJOYm3aFIKkaY+i64E2HlOlWrlr`;
     return new Promise(resolver(cmd))
       .then(({
         stdout

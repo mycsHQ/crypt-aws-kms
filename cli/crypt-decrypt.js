@@ -3,7 +3,8 @@
 const
   fs = require('fs'),
   program = require('commander'),
-  { KMS, softFail } = require('../lib/KMS.js');
+  KMS = require('../lib/KMS.js'),
+  { softFail } = require('../lib/helper');
 
 program
   .option('-r, --region [string]',
@@ -53,7 +54,8 @@ program
             code,
             message
           }, i) => {
-            obj[`decr_${ i }`] = Plaintext ? Plaintext.toString() :
+            obj[`decr_${ i }`] = Plaintext ? Plaintext.toString(
+                Buffer.isBuffer(Plaintext) ? 'base64' : undefined) :
               `ERROR ${ code || message }`;
             return obj;
           }, {}), null, 2));
@@ -64,7 +66,7 @@ program
 program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
-  console.log('    $ crypt-kms decrypt dataToEncrypt ~/fileToEncrypt');
+  console.log('    $ crypt decrypt dataToEncrypt ~/fileToEncrypt');
   console.log('');
 });
 

@@ -41,26 +41,26 @@ async function decryptAsync() {
 
 ```
 
-### Use `crypt-kms` command globally
+### Use `crypt` command globally
 ```bash
 npm install -g && npm link
 ```
 
 ### Use locally
 ```bash
-./cli/crypt-kms.js [options]
+./cli/crypt.js [options]
 ```
 
 ### Access Help Menus
 
 ```bash
 # global
-crypt-kms -h
-crypt-kms [encrypt|decrypt] -h
+crypt -h
+crypt [encrypt|decrypt] -h
 
 # local
-./cli/crypt-kms.js -h
-./cli/crypt-kms.js [encrypt|decrypt] -h
+./cli/crypt.js -h
+./cli/crypt.js [encrypt|decrypt] -h
 ```
 ___
 
@@ -81,9 +81,9 @@ Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJa
 ### [encrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#encrypt-property "encrypt aws docu")
 
 ```bash
-crypt-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt
+crypt encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt
 
-crypt-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt
+crypt -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt
 ```
 
 Additional valid args.
@@ -101,7 +101,7 @@ Additional valid args.
 ### [decrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property "decrypt aws docu")
 
 ```bash
-crypt-kms decrypt dataToEncrypt ~/fileToEncrypt
+crypt decrypt dataToEncrypt ~/fileToEncrypt
 ```
 > files have to begin with "./", "/" or "~/"
 > data strings have to be base64 encrypted
