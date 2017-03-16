@@ -5,15 +5,7 @@ const
   program = require('commander'),
   co = require('co'),
   prompt = require('co-prompt'),
-  KMS = require('../lib/KMS.js');
-
-/**
- * do not fail the promise.all call if one promise fails, but catch the errors and return them
- * @param {promise} promise
- */
-const softFail = (promise) =>
-  new Promise((resolve, reject) => promise.then(resolve)
-    .catch(resolve));
+  { KMS, softFail } = require('../lib/KMS.js');
 
 program
   .option('-k, --key <key>', 'The keyId of the master key')
@@ -97,10 +89,10 @@ program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
   console.log(
-    '    $ mycs-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt'
+    '    $ crypt-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt'
   );
   console.log(
-    '    $ mycs-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt'
+    '    $ crypt-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt'
   );
   console.log('');
 });

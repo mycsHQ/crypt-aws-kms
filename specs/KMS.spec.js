@@ -1,12 +1,11 @@
 const
   fs = require('fs'),
   path = require('path'),
-  exec = require('child_process')
-  .exec,
-  KMS = require('../lib/KMS');
+  exec = require('child_process').exec,
+  { KMS } = require('../lib/KMS'),
+  { keyId } = require('../config');
 
 
-const KeyId = '6bda8121-95b4-402a-83c3-26ae49e8a9d8';
 const fileToEncrypt = './test/encrypt-this.txt';
 
 let encryptedFile;
@@ -19,7 +18,7 @@ const rejectionTest = err => expect(err)
 
 describe('KMS:', () => {
   it('encrypts file', () => {
-    return new KMS(KeyId)
+    return new KMS(keyId)
       .encryptFile(fileToEncrypt, './test')
       .then(({
         CiphertextBlob,
@@ -46,7 +45,7 @@ describe('KMS:', () => {
   });
 
   it('encrypts data', () => {
-    return new KMS(KeyId)
+    return new KMS(keyId)
       .encryptData('Encrypt this please', './test')
       .then(({
         CiphertextBlob,
@@ -100,7 +99,7 @@ describe('KMS:', () => {
 
   it('encrypts file and data via command line', () => {
     const cmd =
-      `./cli/mycs-kms.js encrypt -p ./test -k ${ KeyId } ${ fileToEncrypt } EncryptThis`;
+      `./cli/crypt-kms.js encrypt -p ./test -k ${ keyId } ${ fileToEncrypt } EncryptThis`;
     return new Promise(resolver(cmd))
       .then(({
         stdout
@@ -121,7 +120,7 @@ describe('KMS:', () => {
 
   it('decrypts files and data via command line', () => {
     const cmd =
-      `./cli/mycs-kms.js decrypt ${ encryptedFiles.toString().replace(',', ' ') } AQECAHhhhtrQNZheJkiGg/z5m7eUR5dmM80wdxAI2ARO0dJHgQAAAGQwYgYJKoZIhvcNAQcGoFUwUwIBADBOBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDBGvjxq8UJ0bDK5fXgIBEIAhc6uwdMrhpmd/MgkxOgJOYm3aFIKkaY+i64E2HlOlWrlr`;
+      `./cli/crypt-kms.js decrypt ${ encryptedFiles.toString().replace(',', ' ') } AQECAHhhhtrQNZheJkiGg/z5m7eUR5dmM80wdxAI2ARO0dJHgQAAAGQwYgYJKoZIhvcNAQcGoFUwUwIBADBOBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDBGvjxq8UJ0bDK5fXgIBEIAhc6uwdMrhpmd/MgkxOgJOYm3aFIKkaY+i64E2HlOlWrlr`;
     return new Promise(resolver(cmd))
       .then(({
         stdout

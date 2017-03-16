@@ -1,9 +1,9 @@
 module.exports = {
-  "extends": "mycs",
-  "rules": {
-    "require-jsdoc": "warn"
+  extends: 'mycs',
+  rules: {
+    'require-jsdoc': 'warn'
   },
-  "no-bitwise": ["error", {
-    "allow": ["~"]
-  }]
-}
+  'no-bitwise': [ 'error', {
+    allow: [ '~' ]
+  } ]
+};

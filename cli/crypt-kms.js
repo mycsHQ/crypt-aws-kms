@@ -4,7 +4,7 @@ const
   program = require('commander');
 
 program
-  .version('0.0.1')
+  .version('0.0.2')
   .command('encrypt <files|data> [options]', 'encrypt files and datastrings (files have to begin with "./", "/" or "~/")', {
     isDefault: true
   })
@@ -14,11 +14,11 @@ program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
   console.log('   ENCRYPT');
-  console.log('    $ mycs-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt');
-  console.log('    $ mycs-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt');
+  console.log('    $ crypt-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt');
+  console.log('    $ crypt-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt');
   console.log('');
   console.log('   DECRYPT');
-  console.log('    $ mycs-kms decrypt dataToEncrypt ~/fileToEncrypt');
+  console.log('    $ crypt-kms decrypt dataToEncrypt ~/fileToEncrypt');
   console.log('');
 });
 

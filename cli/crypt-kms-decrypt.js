@@ -3,15 +3,7 @@
 const
   fs = require('fs'),
   program = require('commander'),
-  KMS = require('../lib/KMS.js');
-
-/**
- * do not fail the promise.all call if one promise fails, but catch the errors and return them
- * @param {promise} promise
- */
-const softFail = (promise) =>
-  new Promise((resolve, reject) => promise.then(resolve)
-    .catch(resolve));
+  { KMS, softFail } = require('../lib/KMS.js');
 
 program
   .option('-r, --region [string]',
@@ -72,7 +64,7 @@ program
 program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
-  console.log('    $ mycs-kms decrypt dataToEncrypt ~/fileToEncrypt');
+  console.log('    $ crypt-kms decrypt dataToEncrypt ~/fileToEncrypt');
   console.log('');
 });
 

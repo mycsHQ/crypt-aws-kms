@@ -1,32 +1,33 @@
 {
-  "name": "mycs-kms",
+  "name": "crypt-kms",
   "version": "0.0.1",
   "description": "Helper library for use of aws-kms service",
   "main": "./lib/KMS.js",
   "bin": {
-    "mycs-kms": "./cli/mycs-kms.js"
+    "crypt-kms": "./cli/crypt-kms.js"
   },
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mycshq/mycs-kms.git"
+    "url": "git+https://github.com/mycshq/crypt-kms.git"
   },
   "keywords": [
-    "mycs",
+    "decrypt",
+    "encrypt",
     "kms",
     "aws"
   ],
   "author": {
     "name": "Johann Roehl",
-    "email": "johann@mycs.com",
-    "url": "https://github.com/mycsHQ/mycs-kms"
+    "email": "contact@johannroehl.de",
+    "url": "https://github.com/mycsHQ/crypt-kms"
   },
   "bugs": {
-    "url": "https://github.com/mycshq/mycs-kms/issues"
+    "url": "https://github.com/mycshq/crypt-kms/issues"
   },
-  "homepage": "https://github.com/mycshq/mycs-kms#readme",
+  "homepage": "https://github.com/mycshq/crypt-kms#readme",
   "devDependencies": {
     "aws-sdk": "^2.28.0",
     "babel-eslint": "^7.1.1",

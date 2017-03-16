@@ -1,6 +1,6 @@
-# MYCS kms
+# AWS KMS decrypt / encrypt cli
 
-TODO: Write a project description
+A helper tool to decrypt encrypt data through AWS KMS service. Decryption and Encryption can be done through a cli or in the codebase with the KMS class.
 
 ## Installation
 
@@ -13,47 +13,48 @@ npm install
 ### Use in code
 
 ```javascript
-const KMS = require('../lib/KMS');
+const { KMS } = require('../lib/KMS');
 const KeyId = '123-456-789';
 
 const kms = new KMS(KeyId);
 // uses global aws credentials
-kms
-    .encryptData('foo')
+kms.encryptData('foo')
     .then(({ CiphertextBlob }) => {
         // returns a buffer
         console.log(CiphertextBlob.toString('base64'));
     }, err => console.error(err));
 
-// uses global aws credentials
-kms
-    .decryptData('encryptedBase64Foo')
+kms.decryptData('encryptedBase64Foo')
     .then(({ Plaintext }) => {
         // returns a buffer
         console.log(Plaintext.toString());
     }, err => console.error(err));
+
+// this relies on [deasync](https://github.com/abbr/deasync "deasync") package and is in an experimental state
+const PlaintextBuffer = kms.decryptDataSync('encryptedBase64Foo');
+console.log(PlaintextBuffer.toString());
 ```
 
-### Use `mycs-kms` command globally
+### Use `crypt-kms` command globally
 ```bash
 npm install -g && npm link
 ```
 
 ### Use locally
 ```bash
-./cli/mycs-kms.js [options]
+./cli/crypt-kms.js [options]
 ```
 
 ### Access Help Menus
 
 ```bash
 # global
-mycs-kms -h
-mycs-kms [encrypt|decrypt] -h
+crypt-kms -h
+crypt-kms [encrypt|decrypt] -h
 
 # local
-./cli/mycs-kms.js -h
-./cli/mycs-kms.js [encrypt|decrypt] -h
+./cli/crypt-kms.js -h
+./cli/crypt-kms.js [encrypt|decrypt] -h
 ```
 ___
 
@@ -74,9 +75,9 @@ Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJa
 ### [encrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#encrypt-property "encrypt aws docu")
 
 ```bash
-mycs-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt
+crypt-kms encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt
 
-mycs-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt
+crypt-kms -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt
 ```
 
 Additional valid args.
@@ -94,7 +95,7 @@ Additional valid args.
 ### [decrypt](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/KMS.html#decrypt-property "decrypt aws docu")
 
 ```bash
-mycs-kms decrypt dataToEncrypt ~/fileToEncrypt
+crypt-kms decrypt dataToEncrypt ~/fileToEncrypt
 ```
 > files have to begin with "./", "/" or "~/"
 > data strings have to be base64 encrypted
@@ -103,6 +104,11 @@ mycs-kms decrypt dataToEncrypt ~/fileToEncrypt
 
 - This project needs node > 6.
 - Valid `aws` credentials have to be set up globally or passed as arguments
+- For the tests to work you need to create a kms keyId you have access and use rights to and enter it in `./config.js`
 
 ## License
-© Mycs 2015
+MIT
+© crypt 2015
+
+## Maintainer
+[jroehl](https://github.com/jroehl "jroehl")
