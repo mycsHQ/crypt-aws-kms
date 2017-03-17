@@ -9,7 +9,7 @@ const
 program
   .option('-k, --key <key>', 'The keyId of the master key')
   .option('-p, --path [path]',
-    'The outputPath for encrypted files')
+    'The outputPath for the datakey')
   .option('-r, --region [region]',
     'The aws-region of the kms key (defaults to "eu-west-1")')
   .option('-kS, --keySpec [keySpec]',
@@ -30,17 +30,17 @@ program
     } = program;
 
     let {
-      key
+      args
     } = program;
 
     co(function* () {
-      if (!key) {
-        key = yield prompt('KeyId required: ');
+      args = args.slice(0, -1);
+      if (!args.length) {
+        args = yield prompt('KeyId required: ');
         process.stdin.pause();
       }
 
-      const kms = new KMS(key, accessKey, secretKey, sessionToken, region);
-
+      const kms = new KMS(args[0], accessKey, secretKey, sessionToken, region);
       kms.generateDataKey(keySpec, path);
     });
   });
@@ -49,10 +49,10 @@ program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
   console.log(
-    '    $ crypt generate-datakey -k 123-456-789'
+    '    $ crypt getdatakey -k 123-456-789'
   );
   console.log(
-    '    $ crypt generate-datakey -k 123-456-789 -p ~/Desktop'
+    '    $ crypt getdatakey -k 123-456-789 -p ~/Desktop'
   );
   console.log('');
 });
