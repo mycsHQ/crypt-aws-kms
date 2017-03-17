@@ -15,8 +15,8 @@ The idea is to use the so called [Envelope Encryption](http://docs.aws.amazon.co
 In short the steps are.
 1. Create masterkey in AWS KMS
 2. Generate datakey with masterkey id and store it ENCRYPTED! locally
-3. Decrypt the datakey through KMS and encrypt files locally with decrypted datakey as salt
-4. Decrypt the datakey through KMS and decrypt files locally with decrypted datakey as salt
+3. Decrypt the datakey through KMS and encrypt files locally with decrypted datakey as key
+4. Decrypt the datakey through KMS and decrypt files locally with decrypted datakey as key
 
 > Do not store the decrypted datakey but keep it in memory only as long as you need it
 
@@ -55,7 +55,7 @@ async function decryptAsync() {
 ```javascript
 const { Crypt } = require('./lib');
 
-// you should use a decrypted KMS masterkey as salt
+// you should use a decrypted KMS masterkey as key
 const crypt = new Crypt('decryptedMasterKeyValue');
 
 const encryptedFoo = crypt.encrypt('foo');
