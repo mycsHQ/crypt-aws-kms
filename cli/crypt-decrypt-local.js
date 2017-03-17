@@ -51,7 +51,7 @@ program
           .decryptFile(datakey)
           .then(
             ({ Plaintext }) => {
-              const crypt = new Crypt(Plaintext);
+              const crypt = new Crypt(Plaintext.toString('base64'));
               resolve(args.map(arg => {
                 let secret = arg;
                 if (arg.startsWith('./') || arg.startsWith('/')) {
