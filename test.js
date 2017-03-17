@@ -2,17 +2,11 @@
 // use this eg in a shell script to pass it to your node scripts as env variable
 
 const
-  KMS = require('./KMS'),
+  { KMS } = require('./lib'),
   fs = require('fs'),
   path = require('path');
 
-const datakeyFile = process.env.FILE || process.argv[2];
-
-if (!datakeyFile || !fs.existsSync(datakeyFile)) {
-  throw new Error('datakey could not be found');
-}
-
-new KMS(undefined, process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY, null).decryptFile(path.resolve(datakeyFile))
+new KMS(undefined, 'AWS_ACCESS_KEY_ID', 'j89GgGGyNfLODPROXeqdOFGW1D9fTik361IlwS98').decryptFile(path.resolve('./datakey_local'))
   .then(
     ({ Plaintext }) => console.log(Plaintext.toString('base64')),
     (err) => console.error({ err })
