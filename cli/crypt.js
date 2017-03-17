@@ -16,13 +16,18 @@ program.on('--help', () => {
   console.log('');
   console.log('   ENCRYPT');
   console.log('    $ crypt encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt');
-  console.log('    $ crypt encrypt -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt');
   console.log('');
   console.log('   DECRYPT');
   console.log('    $ crypt decrypt dataToEncrypt ~/fileToEncrypt');
   console.log('');
   console.log('   GENERATEDATAKEY');
-  console.log('    $ crypt getdatakey 123-456-789');
+  console.log('    $ crypt get-datakey 123-456-789');
+  console.log('');
+  console.log('   GENERATEDATAKEY');
+  console.log('    $ crypt encrypt-local dataToEncrypt ~/fileToEncrypt -d pathTodataKey');
+  console.log('');
+  console.log('   GENERATEDATAKEY');
+  console.log('    $ crypt decrypt-local dataToDecrypt ~/fileToDecrypt -d pathTodataKey');
   console.log('');
 });
 

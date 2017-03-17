@@ -92,10 +92,7 @@ program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
   console.log(
-    '    $ crypt encrypt -k 123-456-789 dataToEncrypt ~/fileToEncrypt'
-  );
-  console.log(
-    '    $ crypt -k 123-456-789 -p ~/Desktop dataToEncrypt ~/fileToEncrypt'
+    '    $ crypt decrypt-local dataToDecrypt ~/fileToDecrypt -d pathTodataKey'
   );
   console.log('');
 });

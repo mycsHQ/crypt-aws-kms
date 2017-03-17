@@ -39,7 +39,6 @@ program
         args = yield prompt('KeyId required: ');
         process.stdin.pause();
       }
-
       const kms = new KMS(args[0], accessKey, secretKey, sessionToken, region);
       kms.generateDataKey(keySpec, path);
     });
@@ -49,10 +48,10 @@ program.on('--help', () => {
   console.log('  Examples:');
   console.log('');
   console.log(
-    '    $ crypt getdatakey -k 123-456-789'
+    '    $ crypt get-datakey -k 123-456-789'
   );
   console.log(
-    '    $ crypt getdatakey -k 123-456-789 -p ~/Desktop'
+    '    $ crypt get-datakey -k 123-456-789 -p ~/Desktop'
   );
   console.log('');
 });
