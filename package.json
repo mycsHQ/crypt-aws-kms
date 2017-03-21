@@ -1,6 +1,5 @@
 {
   "name": "crypt-aws-kms",
-  "version": "1.0.0",
   "description": "Helper library for use of aws-kms service",
   "main": "./lib/index.js",
   "bin": {
@@ -12,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mycshq/crypt-aws-kms.git"
+    "url": "https://github.com/mycshq/crypt-aws-kms.git"
   },
   "keywords": [
     "decrypt",
