@@ -16,7 +16,7 @@ const encryptedFiles = [];
 const rejectionTest = err => expect(err)
   .not.toBeDefined();
 
-describe('KMS:', () => {
+xdescribe('KMS:', () => {
   it('encrypts file', () => {
     return new KMS(keyId)
       .encryptFile(fileToEncrypt, './test')
