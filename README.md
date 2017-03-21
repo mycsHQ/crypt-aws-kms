@@ -1,5 +1,10 @@
 # AWS KMS decrypt / encrypt cli
 
+[![Build Status](https://travis-ci.org/mycsHQ/eslint-config-mycs.svg?branch=master)](https://travis-ci.org/mycsHQ/eslint-config-mycs)
+[![npm](https://img.shields.io/npm/v/eslint-config-mycs.svg)](https://www.npmjs.com/package/eslint-config-mycs)
+[![Code Style](https://img.shields.io/badge/code%20style-eslint--mycs-brightgreen.svg)](https://github.com/mycsHQ/eslint-config-mycs)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+
 A helper tool to decrypt encrypt data through AWS KMS service. Decryption and Encryption can be done through a cli or in the codebase with the KMS class.
 
 ## Installation
@@ -210,3 +215,7 @@ MIT
 ## TODO
 - write tests for crypt
 - documentation
+
+## Whenever editing the repository
+
+Should you update the readme, use npm script `semantic-release` to check if a new version has to be set and to publish it to npm.

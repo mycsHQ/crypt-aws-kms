@@ -7,7 +7,8 @@
     "crypt": "./cli/crypt.js"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,7 @@
     "email": "contact@johannroehl.de",
     "url": "https://github.com/mycsHQ/crypt-aws-kms"
   },
-  "license" : "MIT",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mycshq/crypt-aws-kms/issues"
   },
@@ -40,7 +41,8 @@
     "eslint-config-mycs": "^1.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.0",
-    "jest": "^18.1.0"
+    "jest": "^18.1.0",
+    "semantic-release": "^6.3.2"
   },
   "jest": {
     "testEnvironment": "node",
@@ -49,6 +51,5 @@
       "specs"
     ]
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

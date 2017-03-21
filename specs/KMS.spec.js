@@ -3,11 +3,10 @@ const
   path = require('path'),
   exec = require('child_process').exec,
   KMS = require('../lib/KMS'),
-  Crypt = require('../lib/Crypt'),
   { keyId } = require('../config');
 
 
-const fileToEncrypt = './test/encrypt-this.txt';
+const fileToEncrypt = './specs/test-data/encrypt-this.txt';
 
 let encryptedFile;
 let encryptedData;
