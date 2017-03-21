@@ -1,6 +1,6 @@
 # AWS KMS decrypt / encrypt cli
 
-[![Build Status](https://travis-ci.org/mycsHQ/crypt-aws-kms.svg?branch=master)](https://travis-ci.org/mycsHQ/eslint-config-mycs)
+[![Build Status](https://travis-ci.org/mycsHQ/crypt-aws-kms.svg?branch=master)](https://travis-ci.org/mycsHQ/crypt-aws-kms)
 [![npm](https://img.shields.io/npm/v/crypt-aws-kms.svg)](https://www.npmjs.com/package/crypt-aws-kms)
 [![Code Style](https://img.shields.io/badge/code%20style-eslint--mycs-brightgreen.svg)](https://github.com/mycsHQ/eslint-config-mycs)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
