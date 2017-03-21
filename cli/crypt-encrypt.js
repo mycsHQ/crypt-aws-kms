@@ -14,11 +14,11 @@ program
     'The outputPath for encrypted files')
   .option('-r, --region [region]',
     'The aws-region of the kms key (defaults to "eu-west-1")')
-  .option('-aK, --accessKey [accessKeyId]',
+  .option('-a, --accessKey [accessKeyId]',
     'The accessKeyId for aws (defaults to global credentials)')
-  .option('-sK, --secretKey [secretAccessKey]',
+  .option('-s, --secretKey [secretAccessKey]',
     'The secretAccessKey for aws (defaults to global credentials)')
-  .option('-sT, --sessionToken [sessionToken]', 'The sessionToken for aws')
+  .option('-t, --sessionToken [sessionToken]', 'The sessionToken for aws')
   .action(() => {
     const {
       path,

@@ -91,9 +91,9 @@ Following args are used to create the [AWS.KMS](http://docs.aws.amazon.com/AWSJa
 ```javascript
 {
     -r: 'region',
-    -aK: 'accessKeyId',
-    -sK: 'secretAccessKey',
-    -sT: 'sessionToken'
+    -a: 'accessKeyId',
+    -s: 'secretAccessKey',
+    -t: 'sessionToken'
 }
 ```
 

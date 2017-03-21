@@ -9,11 +9,11 @@ const
 program
   .option('-r, --region [string]',
     'The aws-region of the kms key (defaults to "eu-west-1")')
-  .option('-aK, --accessKey [string]',
+  .option('-a, --accessKey [string]',
     'The accessKeyId for aws (defaults to global credentials)')
-  .option('-sK, --secretKey [string]',
+  .option('-s, --secretKey [string]',
     'The secretAccessKey for aws (defaults to global credentials)')
-  .option('-sT, --sessionToken [string]', 'The sessionToken for aws')
+  .option('-t, --sessionToken [string]', 'The sessionToken for aws')
   .action(() => {
     const {
       region,
